@@ -138,3 +138,34 @@ body {
 .lightbox__button:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+.modalBtn {
+  background-color: aqua;
+  width: 120px;
+  height: 50px;
+  position: absolute;
+  border-radius: 10px;
+  color: #212121;
+  font-size: large;
+  bottom: 20px;
+}
+
+@media screen and (min-width: 1300px) {
+  .modalBtn {
+    bottom: 50%;
+  }
+}
+
+.modalbtn-next {
+  right: 50px;
+}
+
+.modalbtn-prev {
+  left: 50px;
+}
+
+.modalBtn:hover {
+  background-color: rgb(22, 221, 49);
+  color: #fff;
+  cursor: pointer;
+}
