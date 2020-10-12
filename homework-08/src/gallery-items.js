@@ -64,15 +64,6 @@ const pictures = [
   },
 ];
 
-{
-  /* <div class="lightbox js-lightbox">
-  <div class="lightbox__overlay"></div>
-
-  <div class="lightbox__content">
-    <img class="lightbox__image" src="" alt="" />
-  </div> */
-}
-
 const ref = {
   galary: document.querySelector('.js-gallery'),
   modal: document.querySelector('.js-lightbox'),
@@ -88,10 +79,12 @@ const ref = {
 ref.galary.addEventListener('click', onClickOpenModal);
 ref.closeBtn.addEventListener('click', onClickCloseModal);
 ref.overlay.addEventListener('click', onClickOverlayCloseModal);
+ref.btnNextModal.addEventListener('click', onClickBtnNext);
+ref.btnPreviousModal.addEventListener('click', onClickBtnPrev);
 
 function makePictureMurkup(picture) {
   return picture
-    .map(({ preview, original, description }) => {
+    .map(({ preview, original, description }, index) => {
       return `<li class="gallery__item">
   <a
     class="gallery__link"
@@ -102,6 +95,7 @@ function makePictureMurkup(picture) {
       src="${preview}"
       data-source="${original}"
       alt="${description}"
+      data-index = ${index}
     />
   </a>
 </li> `;
@@ -110,22 +104,28 @@ function makePictureMurkup(picture) {
 }
 const allPicture = makePictureMurkup(pictures);
 ref.galary.insertAdjacentHTML('beforeend', allPicture);
+let activeIndex = 0;
+let originalPicture = '';
 
 function onClickOpenModal(event) {
   event.preventDefault();
-  const originalPicture = event.target.dataset.source;
+  originalPicture = event.target.dataset.source;
+  activeIndex = Number(event.target.dataset.index);
   if (event.target.nodeName !== 'IMG') {
     return;
   }
   window.addEventListener('keydown', onEscapeCloseModal);
+  window.addEventListener('keydown', keyboardPress);
   ref.modal.classList.add('is-open');
   ref.imgOnModal.src = originalPicture;
+  console.log(activeIndex);
 }
 
 function onClickCloseModal(event) {
   ref.modal.classList.remove('is-open');
   ref.imgOnModal.src = '';
   window.removeEventListener('keydown', onEscapeCloseModal);
+  window.addEventListener('keydown', keyboardPress);
 }
 
 function onClickOverlayCloseModal(event) {
@@ -139,4 +139,53 @@ function onEscapeCloseModal(event) {
     onClickCloseModal();
   }
   console.log(event);
+}
+
+const allOriginalUrl = pictures.map(el => el.original);
+function keyboardPress(event) {
+  if (event.code === 'ArrowRight') {
+    for (let i = 0; i < allOriginalUrl.length; i += 1) {
+      if (ref.imgOnModal.src === allOriginalUrl[8]) {
+        ref.imgOnModal.src = `${allOriginalUrl[0]}`;
+        return;
+      } else if (ref.imgOnModal.src === allOriginalUrl[i]) {
+        ref.imgOnModal.src = `${allOriginalUrl[i + 1]}`;
+        return;
+      }
+    }
+  } else if (event.code === 'ArrowLeft') {
+    for (let i = 0; i < allOriginalUrl.length; i += 1) {
+      if (ref.imgOnModal.src === allOriginalUrl[0]) {
+        ref.imgOnModal.src = `${allOriginalUrl[8]}`;
+        return;
+      } else if (ref.imgOnModal.src === allOriginalUrl[i]) {
+        ref.imgOnModal.src = `${allOriginalUrl[i - 1]}`;
+        return;
+      }
+    }
+  }
+}
+
+function onClickBtnNext() {
+  for (let i = 0; i < allOriginalUrl.length; i += 1) {
+    if (ref.imgOnModal.src === allOriginalUrl[8]) {
+      ref.imgOnModal.src = `${allOriginalUrl[0]}`;
+      return;
+    } else if (ref.imgOnModal.src === allOriginalUrl[i]) {
+      ref.imgOnModal.src = `${allOriginalUrl[i + 1]}`;
+      return;
+    }
+  }
+}
+
+function onClickBtnPrev() {
+  for (let i = 0; i < allOriginalUrl.length; i += 1) {
+    if (ref.imgOnModal.src === allOriginalUrl[0]) {
+      ref.imgOnModal.src = `${allOriginalUrl[8]}`;
+      return;
+    } else if (ref.imgOnModal.src === allOriginalUrl[i]) {
+      ref.imgOnModal.src = `${allOriginalUrl[i - 1]}`;
+      return;
+    }
+  }
 }

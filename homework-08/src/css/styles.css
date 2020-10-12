@@ -94,6 +94,7 @@ body {
 }
 
 .lightbox__content {
+  position: absolute;
   transform: scale(0.95);
   transition: transform var(--animation-duration) var(--timing-function);
 }
@@ -140,12 +141,12 @@ body {
 }
 
 .modalBtn {
-  background-color: aqua;
+  background-color: rgb(131, 178, 240);
   width: 120px;
   height: 50px;
   position: absolute;
   border-radius: 10px;
-  color: #212121;
+  color: #ffffff;
   font-size: large;
   bottom: 20px;
 }
@@ -153,15 +154,16 @@ body {
 @media screen and (min-width: 1300px) {
   .modalBtn {
     bottom: 50%;
+    background-color: transparent;
   }
 }
 
 .modalbtn-next {
-  right: 50px;
+  right: 40px;
 }
 
 .modalbtn-prev {
-  left: 50px;
+  left: 40px;
 }
 
 .modalBtn:hover {
